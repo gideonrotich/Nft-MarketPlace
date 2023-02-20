@@ -6,7 +6,7 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
@@ -14,3 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Fantasy  Manager"
 include ':app'
+include ':compose-ui'
+include ':core'
+include ':core-database'
+include ':core-network'
+include ':feature:home'

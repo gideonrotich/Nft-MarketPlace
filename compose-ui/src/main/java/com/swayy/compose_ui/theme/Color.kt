@@ -1,4 +1,4 @@
-package com.swayy.fantasymanager.ui.theme
+package com.swayy.compose_ui.theme
 
 import androidx.compose.ui.graphics.Color
 

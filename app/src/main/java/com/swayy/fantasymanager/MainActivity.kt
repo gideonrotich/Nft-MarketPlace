@@ -10,13 +10,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.swayy.fantasymanager.ui.theme.FantasyManagerTheme
+import com.swayy.compose_ui.theme.FantasyManagerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FantasyManagerTheme {
+            com.swayy.compose_ui.theme.FantasyManagerTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -37,7 +37,7 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    FantasyManagerTheme {
+    com.swayy.compose_ui.theme.FantasyManagerTheme {
         Greeting("Android")
     }
 }
