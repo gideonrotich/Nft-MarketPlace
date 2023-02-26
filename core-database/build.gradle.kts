@@ -57,6 +57,7 @@ dependencies {
 
     // Room
     implementation("androidx.room:room-runtime:2.5.0")
+    implementation(project(mapOf("path" to ":core-network")))
     kapt("androidx.room:room-compiler:2.5.0")
     testImplementation("androidx.room:room-testing:2.5.0")
     androidTestImplementation("androidx.room:room-testing:2.5.0")
