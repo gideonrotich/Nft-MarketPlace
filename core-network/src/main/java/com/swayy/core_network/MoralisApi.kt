@@ -9,6 +9,7 @@ interface MoralisApi {
     @GET(GET_NFT_CONTRACT)
     suspend fun getContract(
         @Path("address")address:String,
+        @Query("limit")limit:Int,
         @Query("normalizeMetadata")normalizeMetadata: Boolean
     ):NftContractResponse
 }

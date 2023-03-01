@@ -15,5 +15,5 @@ data class Result(
     val token_hash: String,
     val token_id: String,
     val token_uri: String,
-    val updated_at: Any
+    val updated_at: String
 )

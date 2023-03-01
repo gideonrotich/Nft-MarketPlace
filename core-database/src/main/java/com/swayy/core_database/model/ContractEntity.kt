@@ -17,7 +17,6 @@ data class ContractEntity(
     val metadata: String,
     val minter_address: String,
     val name: String,
-    val normalized_metadata: NormalizedMetadata,
     val symbol: String,
     val token_address: String,
     val token_hash: String,
