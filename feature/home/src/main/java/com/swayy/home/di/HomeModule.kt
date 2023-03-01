@@ -1,7 +1,10 @@
 package com.swayy.home.di
 
+import com.swayy.core_network.HowrareApi
 import com.swayy.core_network.MoralisApi
+import com.swayy.home.data.repository.CollectionRepositoryImpl
 import com.swayy.home.data.repository.ContractRepositoryImpl
+import com.swayy.home.domain.repository.CollectionRepository
 import com.swayy.home.domain.repository.ContractRepository
 import dagger.Module
 import dagger.Provides
@@ -18,4 +21,11 @@ object HomeModule {
     fun provideContractRepository(moralisApi: MoralisApi): ContractRepository {
         return ContractRepositoryImpl(moralisApi = moralisApi)
     }
+
+    @Provides
+    @Singleton
+    fun provideCollectionRepository(howrareApi: HowrareApi): CollectionRepository {
+        return CollectionRepositoryImpl(howrareApi = howrareApi)
+    }
+
 }

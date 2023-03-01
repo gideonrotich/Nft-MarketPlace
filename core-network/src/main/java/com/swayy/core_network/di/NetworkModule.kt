@@ -4,6 +4,8 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.swayy.core_network.Constants.BASE_URL
+import com.swayy.core_network.Constants.COLLECTIONS_URL
+import com.swayy.core_network.HowrareApi
 import com.swayy.core_network.MoralisApi
 import dagger.Module
 import dagger.Provides
@@ -63,5 +65,15 @@ object NetworkModule {
             .client(okHttpClient)
             .build()
             .create(MoralisApi::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideHowrareApi(okHttpClient: OkHttpClient): HowrareApi {
+        return Retrofit.Builder()
+            .baseUrl(COLLECTIONS_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(HowrareApi::class.java)
     }
 }

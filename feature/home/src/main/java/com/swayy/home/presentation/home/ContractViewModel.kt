@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.swayy.core.util.Resource
 import com.swayy.home.domain.repository.ContractRepository
+import com.swayy.home.domain.use_case.GetCollectionUseCase
 import com.swayy.home.domain.use_case.GetContractUseCase
+import com.swayy.home.presentation.home.state.CollectionState
 import com.swayy.home.presentation.home.state.ContractState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -16,14 +18,38 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContractViewModel @Inject constructor(
-    private val getContractUseCase: GetContractUseCase
+    private val getContractUseCase: GetContractUseCase,
+    private val getCollectionUseCase: GetCollectionUseCase
 ) : ViewModel() {
 
     private val _contracts = mutableStateOf(ContractState())
     val contracts: State<ContractState> = _contracts
 
+    private val _collections = mutableStateOf(CollectionState())
+    val collections: State<CollectionState> = _collections
+
     init {
-        getContracts("0x3bf2922f4520a8BA0c2eFC3D2a1539678DaD5e9D", 8,true)
+        getCollections()
+//        getContracts("0x3bf2922f4520a8BA0c2eFC3D2a1539678DaD5e9D", 8,true)
+    }
+
+    fun getCollections() {
+        getCollectionUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _collections.value = CollectionState(collections = result.data ?: emptyList())
+//
+                }
+                is Resource.Error -> {
+                    _collections.value = CollectionState(
+                        error = result.message ?: "An unexpected error occured"
+                    )
+                }
+                is Resource.Loading -> {
+                    _collections.value = CollectionState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun getContracts(address:String,limit:Int,normalizedMetadata: Boolean) {
