@@ -4,6 +4,7 @@ import com.swayy.core_database.model.ContractEntity
 import com.swayy.core_network.model.collections.Data
 import com.swayy.core_network.model.nft_contract.NftContractResponse
 import com.swayy.home.domain.model.Collection
+import com.swayy.home.domain.model.CollectionDetail
 import com.swayy.home.domain.model.Contract
 
 internal fun com.swayy.core_network.model.nft_contract.Result.toData(): Contract {
@@ -40,5 +41,19 @@ internal fun Data.toCollection(): com.swayy.home.domain.model.Collection {
         official_rarity,
         on_sale,
         url
+    )
+}
+
+internal fun com.swayy.core_network.model.collection_details.Data.toCollectionDetail(): CollectionDetail {
+    return CollectionDetail(
+        collection,
+        description,
+        discord,
+        items,
+        logo,
+        official_rarity,
+        ranking_url,
+        twitter,
+        website
     )
 }

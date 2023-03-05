@@ -30,7 +30,7 @@ class ContractViewModel @Inject constructor(
 
     init {
         getCollections()
-//        getContracts("0x3bf2922f4520a8BA0c2eFC3D2a1539678DaD5e9D", 8,true)
+        getContracts("0x59468516a8259058baD1cA5F8f4BFF190d30E066", 8,true)
     }
 
     fun getCollections() {

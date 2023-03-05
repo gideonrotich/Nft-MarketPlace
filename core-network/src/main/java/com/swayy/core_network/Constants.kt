@@ -5,4 +5,5 @@ object Constants {
     const val GET_NFT_CONTRACT = "nft/{address}"
     const val COLLECTIONS_URL = "https://api.howrare.is/v0.1/"
     const val GET_COLLECTIONS = "collections"
+    const val GET_COLLECTION_DETAILS = "collections/{collection}"
 }

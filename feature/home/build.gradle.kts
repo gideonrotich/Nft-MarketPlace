@@ -61,6 +61,8 @@ dependencies {
     implementation(project(":core-network"))
     implementation(project(":core-database"))
     implementation(project(":compose-ui"))
+    implementation("io.coil-kt:coil-gif:2.1.0")
+    implementation("io.coil-kt:coil-compose:2.1.0")
 }
 
 kotlin {
