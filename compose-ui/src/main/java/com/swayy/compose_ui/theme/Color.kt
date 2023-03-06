@@ -30,7 +30,7 @@ val SurfaceDark = Color(0xFF3A3A3A)
 val SurfaceLight = Color(0xFFFFFFFF)
 
 val BackgroundLightColor = Color(0xffffffff)
-//val BackgroundDarkColor = Color(0xFF010010)
+val BackgroundDarkColorTwo = Color(0xFF0F0B2B)
 val BackgroundDarkColor = Color(0xFF090818)
 
 val ErrorColor = Color(0xFFFF8989)

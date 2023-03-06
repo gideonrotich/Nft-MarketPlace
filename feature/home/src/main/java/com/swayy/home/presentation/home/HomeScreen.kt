@@ -93,7 +93,7 @@ fun HomeScreen(
                     modifier = Modifier.padding(all = 14.dp),
                     horizontalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
-                    items(nftState.contracts) { nft ->
+                    items(nftState.contracts.take(10)) { nft ->
                         val ipfsLink = nft.normalized_metadata!!.image
                         val httpsLink = convertIpfsToHttps(ipfsLink)
                         val image: Painter = rememberImagePainter(data = httpsLink)
@@ -359,7 +359,7 @@ fun HomeScreen(
                     modifier = Modifier.padding(all = 14.dp),
                     horizontalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
-                    items(nftState.contracts) { nft ->
+                    items(nftState.contracts.takeLast(10)) { nft ->
                         val ipfsLink = nft.normalized_metadata!!.image
                         val httpsLink = convertIpfsToHttps(ipfsLink)
                         val image: Painter = rememberImagePainter(data = httpsLink)

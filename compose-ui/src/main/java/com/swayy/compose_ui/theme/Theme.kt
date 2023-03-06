@@ -66,7 +66,8 @@ private val DarkColors = darkColorScheme(
     secondaryContainer = PrimaryColor,
     onSecondaryContainer = Color.White,
     error = ErrorColor,
-    onError = OnErrorColor
+    onError = OnErrorColor,
+    scrim = BackgroundDarkColorTwo
 )
 
 @Composable
