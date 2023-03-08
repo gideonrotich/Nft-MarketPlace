@@ -23,11 +23,12 @@ import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.swayy.home.presentation.destinations.CollectionDetailScreenDestination
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.home.presentation.home.HomeNavigator
+import com.swayy.profile.presentation.SettingsNavigator
 
 class CoreFeatureNavigator(
     private val navGraph: NavGraphSpec,
     private val navController: NavController
-) : HomeNavigator {
+) : HomeNavigator, SettingsNavigator {
 
     override fun openHome() {
         navController.navigate(HomeScreenDestination within navGraph)
@@ -40,5 +41,7 @@ class CoreFeatureNavigator(
     override fun openCollectionDetails(collectionId: String) {
         navController.navigate(CollectionDetailScreenDestination(collectionId = collectionId) within navGraph)
     }
+
+    override fun openAllergiesScreen() {}
 
 }

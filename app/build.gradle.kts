@@ -69,6 +69,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":compose-ui"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:profile"))
 
     implementation("io.github.raamcosta.compose-destinations:animations-core:1.7.32-beta")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.7.32-beta")

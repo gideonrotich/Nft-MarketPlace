@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kanyideveloper.mealtime.navigation
+package com.swayy.fantasymanager.navigation
 
 import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.swayy.home.presentation.destinations.CollectionDetailScreenDestination
 import com.swayy.home.presentation.destinations.HomeScreenDestination
+import com.swayy.profile.presentation.destinations.SettingsScreenDestination
 
 object NavGraphs {
 
@@ -35,12 +36,24 @@ object NavGraphs {
             .associateBy { it.route }
     }
 
+    val settings = object : NavGraphSpec {
+        override val route = "settings"
+
+        override val startRoute = SettingsScreenDestination routedIn this
+
+        override val destinationsByRoute = listOf<DestinationSpec<*>>(
+            SettingsScreenDestination,
+        ).routedIn(this)
+            .associateBy { it.route }
+    }
+
     val root = object : NavGraphSpec {
         override val route = "root"
         override val startRoute = home
         override val destinationsByRoute = emptyMap<String, DestinationSpec<*>>()
         override val nestedNavGraphs = listOf(
-            home
+            home,
+            settings
         )
     }
 }

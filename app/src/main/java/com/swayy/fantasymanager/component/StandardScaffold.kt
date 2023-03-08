@@ -39,7 +39,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptionsBuilder
-import com.kanyideveloper.mealtime.navigation.NavGraphs
+import com.swayy.fantasymanager.navigation.NavGraphs
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.swayy.fantasymanager.BottomNavItem

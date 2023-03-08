@@ -11,6 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        tools:replace="android:dataExtractionRules"
         android:theme="@style/Theme.FantasyManager"
         tools:targetApi="31">
         <activity

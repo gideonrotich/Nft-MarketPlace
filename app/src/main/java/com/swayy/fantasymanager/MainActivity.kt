@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -28,7 +29,9 @@ import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.scope.DestinationScope
 import com.swayy.fantasymanager.component.StandardScaffold
 import com.swayy.fantasymanager.component.navGraph
+import com.swayy.fantasymanager.navigation.NavGraphs
 import com.swayy.home.presentation.destinations.HomeScreenDestination
+import com.swayy.profile.presentation.destinations.SettingsScreenDestination
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 
@@ -37,6 +40,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         setContent {
             val viewModel: MainViewModel = hiltViewModel()
 
@@ -60,6 +64,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         showBottomBar = route in listOf(
                             "home/${HomeScreenDestination.route}",
+                            "settings/${SettingsScreenDestination.route}",
 
                         )
                     ) { innerPadding ->
@@ -90,6 +95,20 @@ internal fun AppNavigation(
         rootDefaultAnimations = RootNavGraphDefaultAnimations.ACCOMPANIST_FADING, // default `rootDefaultAnimations` means no animations
         defaultAnimationsForNestedNavGraph = mapOf(
             NavGraphs.home to NestedNavGraphDefaultAnimations(
+                enterTransition = {
+                    scaleInEnterTransition()
+                },
+                exitTransition = {
+                    scaleOutExitTransition()
+                },
+                popEnterTransition = {
+                    scaleInPopEnterTransition()
+                },
+                popExitTransition = {
+                    scaleOutPopExitTransition()
+                }
+            ),
+            NavGraphs.settings to NestedNavGraphDefaultAnimations(
                 enterTransition = {
                     scaleInEnterTransition()
                 },

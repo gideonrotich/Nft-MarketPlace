@@ -15,11 +15,7 @@
  */
 package com.swayy.fantasymanager
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.kanyideveloper.mealtime.navigation.NavGraphs
+import com.swayy.fantasymanager.navigation.NavGraphs
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 
 sealed class BottomNavItem(var title: String, var icon: Int, var screen: NavGraphSpec) {
@@ -44,7 +40,7 @@ sealed class BottomNavItem(var title: String, var icon: Int, var screen: NavGrap
     object Favorites : BottomNavItem(
         title = "Profile",
         icon =com.swayy.core.R.drawable.baseline_person_outline_24,
-        screen = NavGraphs.home
+        screen = NavGraphs.settings
     )
 
     object Settings : BottomNavItem(
