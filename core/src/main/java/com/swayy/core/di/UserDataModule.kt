@@ -20,7 +20,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.kanyideveloper.core.data.MealTimePreferences
+import com.swayy.core.data.MealTimePreferences
 import com.swayy.core.data.UserDataRepositoryImpl
 import com.swayy.core.domain.UserDataRepository
 import com.swayy.core.util.Constants.MEALTIME_PREFERENCES

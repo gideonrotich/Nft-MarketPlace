@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Joel Kanyi.
+ * Copyright 2023 Joel Kanyi.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.swayy.core.data
+package com.swayy.core.model
 
-import com.swayy.core.domain.UserDataRepository
-import kotlinx.coroutines.flow.Flow
+data class MealPlanPreference(
+    val walletAddress: String,
 
-class UserDataRepositoryImpl(
-    private val mealTimePreferences: MealTimePreferences
-) : UserDataRepository {
-    override val themeStream: Flow<Int>
-        get() = mealTimePreferences.getTheme
-
-    override suspend fun setTheme(themeValue: Int) {
-        mealTimePreferences.saveTheme(themeValue = themeValue)
-    }
-}
+)

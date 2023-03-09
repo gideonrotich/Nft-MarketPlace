@@ -5,10 +5,16 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.eneskayiklik.myapplication.utils.BridgeServer
 import com.squareup.moshi.Moshi
+import com.swayy.core.model.MealPlanPreference
+import com.swayy.profile.domain.repository.WalletRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import org.komputing.khex.extensions.toHexString
 import org.walletconnect.Session
@@ -24,10 +30,11 @@ class ConnectWalletViewModel @Inject constructor(
     private val moshi: Moshi,
     private val client: OkHttpClient,
     private val storage: WCSessionStore,
-): ViewModel() {
+    private val repository: WalletRepository
+) : ViewModel() {
 
     var userWallet = MutableStateFlow("")
-    private set
+        private set
 
     private var config: Session.Config? = null
     private var session: Session? = null
@@ -82,7 +89,7 @@ class ConnectWalletViewModel @Inject constructor(
             Session.Status.Connected,
             Session.Status.Disconnected,
             is Session.Status.Error,
-            -> Log.e("WC Session Status", "handleStatus: $this", )
+            -> Log.e("WC Session Status", "handleStatus: $this")
         }
     }
 
@@ -91,9 +98,17 @@ class ConnectWalletViewModel @Inject constructor(
         /* Provider name*/
         // val walletType = session?.peerMeta()?.name ?: ""
         userWallet.value = address
-    }
 
+        viewModelScope.launch {
+            repository.saveMealPlannerPreferences(
+                walletAddress = address,
+            )
+        }
+
+    }
     private fun sessionClosed() {
 
     }
+
+
 }

@@ -3,6 +3,9 @@ package com.swayy.profile.di
 import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.swayy.core.data.MealTimePreferences
+import com.swayy.profile.data.repository.WalletRepositoryImpl
+import com.swayy.profile.domain.repository.WalletRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,4 +35,14 @@ object WalletConnectModule {
         moshi: Moshi,
     ): WCSessionStore = FileWCSessionStore(File(context.cacheDir, "session_store.json").apply { createNewFile() },
         moshi)
+
+    @Provides
+    @Singleton
+    fun providesWalletRepository(
+        mealTimePreferences: MealTimePreferences
+    ): WalletRepository {
+        return WalletRepositoryImpl(
+            mealTimePreferences = mealTimePreferences
+        )
+    }
 }
