@@ -9,4 +9,5 @@ interface WalletRepository {
     suspend fun saveMealPlannerPreferences(
         walletAddress: String
     )
+
 }

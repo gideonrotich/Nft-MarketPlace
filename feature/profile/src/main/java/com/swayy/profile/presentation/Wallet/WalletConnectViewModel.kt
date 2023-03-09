@@ -13,6 +13,7 @@ import com.swayy.profile.domain.repository.WalletRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
@@ -97,7 +98,7 @@ class ConnectWalletViewModel @Inject constructor(
         val address = session?.approvedAccounts()?.firstOrNull() ?: return
         /* Provider name*/
         // val walletType = session?.peerMeta()?.name ?: ""
-        userWallet.value = address
+//        userWallet.value = address
 
         viewModelScope.launch {
             repository.saveMealPlannerPreferences(
@@ -106,9 +107,21 @@ class ConnectWalletViewModel @Inject constructor(
         }
 
     }
+
     private fun sessionClosed() {
 
     }
 
+    init {
+        RetrieveKey()
+    }
+
+    private fun RetrieveKey() {
+        viewModelScope.launch {
+            repository.hasMealPlanPref.collectLatest {
+                userWallet.value = it?.walletAddress.toString()
+            }
+        }
+    }
 
 }

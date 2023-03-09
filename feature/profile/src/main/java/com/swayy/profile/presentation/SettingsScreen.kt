@@ -56,6 +56,7 @@ import com.swayy.core.R
 import com.swayy.core.util.UiEvents
 import com.swayy.profile.presentation.Demo.Wallet.components.AddWallet
 import com.swayy.profile.presentation.Wallet.ConnectWalletViewModel
+import com.swayy.profile.presentation.Wallet.component.AccountScreen
 import com.swayy.profile.presentation.Wallet.component.introductionText
 
 interface SettingsNavigator {
@@ -73,8 +74,6 @@ fun SettingsScreen(
     val context = LocalContext.current
     val walletAddress = viewModel.userWallet.collectAsState().value
 
-
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(14.dp))
@@ -90,22 +89,13 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(14.dp))
             androidx.compose.material.Divider(color = Color.LightGray, thickness = 0.5.dp)
 
-            if (walletAddress != "") {
-                Text(
-                    text = walletAddress,
-                    style = MaterialTheme.typography.h6.copy(
-                        fontSize = 10.sp,
-                        color = PrimaryColor
-                    ),
-                    textAlign = TextAlign.Center, modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(bottom = 5.dp)
-                )
+            if (walletAddress != "0") {
+                AccountScreen(address = walletAddress)
             } else {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.LightGray.copy(alpha = .2F)),
+                        .background(Color.LightGray.copy(alpha = .1F)),
                     contentPadding = PaddingValues(vertical = 40.dp, horizontal = 15.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(15.dp)
@@ -124,86 +114,3 @@ fun SettingsScreen(
 }
 
 
-//Column {
-//        Spacer(modifier = Modifier.height(20.dp))
-//        Box(
-//            modifier = Modifier
-//                .height(50.dp)
-//                .fillMaxSize()
-//        ) {
-//
-//            Column(modifier = Modifier.fillMaxSize()) {
-//                Text(
-//                    text = "Profile",
-//                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                    style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
-//                    fontSize = 20.sp,
-//                    modifier = Modifier
-//                        .align(Alignment.CenterHorizontally),
-//                    fontWeight = FontWeight.Bold,
-//                )
-//
-//                Spacer(modifier = Modifier.height(14.dp))
-//                androidx.compose.material.Divider(color = Color.LightGray, thickness = 0.5.dp)
-//            }
-//
-//        }
-//        Spacer(modifier = Modifier.height(20.dp))
-//        AddWallet()
-//        Spacer(modifier = Modifier.height(46.dp))
-//        Text(
-//            text = "Log into your wallet",
-//            color = MaterialTheme.colorScheme.onSurfaceVariant,
-//            style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
-//            fontSize = 16.sp,
-//            modifier = Modifier
-//                .align(Alignment.CenterHorizontally),
-//            fontWeight = FontWeight.Bold,
-//        )
-//        Spacer(modifier = Modifier.height(20.dp))
-//        Text(
-//            text = "Connect to any WalletConnect supported wallet \n to securely store your digital goods and \n cryptocurrencies.",
-//            color = Color.Gray,
-//            style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
-//            fontSize = 15.sp,
-//            modifier = Modifier
-//                .align(Alignment.CenterHorizontally),
-//            fontWeight = FontWeight.Normal,
-//        )
-//        Spacer(modifier = Modifier.height(50.dp))
-//        Button(
-//            onClick = { /*TODO*/ },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(start = 17.dp, end = 17.dp)
-//                .height(46.dp),
-//            shape = RoundedCornerShape(10.dp),
-//        ) {
-//            Text(
-//                text = "Connect wallet",
-//                color = Color.White,
-//                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
-//                fontSize = 16.sp,
-//                fontWeight = FontWeight.Normal,
-//            )
-//        }
-//        Spacer(modifier = Modifier.height(60.dp))
-//        Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
-//            Text(
-//                text = "Dont have a wallet yet?",
-//                color = Color.Gray,
-//                style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
-//                fontSize = 15.sp,
-//                fontWeight = FontWeight.Normal,
-//            )
-//            Text(
-//                text = "Learn more",
-//                color = PrimaryColor,
-//                style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
-//                fontSize = 15.sp,
-//                fontWeight = FontWeight.Normal,
-//            )
-//        }
-//
-//
-//    }
