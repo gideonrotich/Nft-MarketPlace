@@ -3,7 +3,9 @@ package com.swayy.core_network.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.swayy.core_network.BlockspanApi
 import com.swayy.core_network.Constants.BASE_URL
+import com.swayy.core_network.Constants.BASE_URL_TWO
 import com.swayy.core_network.Constants.COLLECTIONS_URL
 import com.swayy.core_network.HowrareApi
 import com.swayy.core_network.MoralisApi
@@ -75,5 +77,16 @@ object NetworkModule {
             .client(okHttpClient)
             .build()
             .create(HowrareApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBlockSpanApi(okHttpClient: OkHttpClient): BlockspanApi {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL_TWO)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(BlockspanApi::class.java)
     }
 }

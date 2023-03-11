@@ -21,6 +21,7 @@ import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -73,6 +74,7 @@ fun SettingsScreen(
 
     val context = LocalContext.current
     val walletAddress = viewModel.userWallet.collectAsState().value
+    val walletType = viewModel.walletType.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {

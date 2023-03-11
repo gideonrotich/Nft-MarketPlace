@@ -34,6 +34,7 @@ class ConnectWalletViewModel @Inject constructor(
     private val repository: WalletRepository
 ) : ViewModel() {
 
+    var walletType = MutableStateFlow("")
     var userWallet = MutableStateFlow("")
         private set
 
@@ -94,10 +95,14 @@ class ConnectWalletViewModel @Inject constructor(
         }
     }
 
+    fun killSession() {
+        session?.kill()
+    }
+
     private fun sessionApproved() {
         val address = session?.approvedAccounts()?.firstOrNull() ?: return
         /* Provider name*/
-        // val walletType = session?.peerMeta()?.name ?: ""
+        walletType.value = session?.peerMeta()?.name ?: ""
 //        userWallet.value = address
 
         viewModelScope.launch {

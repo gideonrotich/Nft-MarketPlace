@@ -100,3 +100,19 @@ fun errorBodyAsString(throwable: HttpException): String? {
     return reader?.use { it.readText() }
 }
 
+@Composable
+fun LottieAnim(
+    resId: Int,
+    modifier: Modifier = Modifier,
+    height: Dp = 300.dp
+) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(resId = resId))
+    LottieAnimation(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height),
+        iterations = LottieConstants.IterateForever,
+        composition = composition
+    )
+}
+

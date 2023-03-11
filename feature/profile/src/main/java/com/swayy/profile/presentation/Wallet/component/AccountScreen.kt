@@ -5,22 +5,25 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Place
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,9 +32,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,6 +47,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.swayy.core.R
+import com.swayy.core.components.EmptyStateComponent
+import com.swayy.core.util.LottieAnim
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -115,17 +124,17 @@ fun AccountScreen(address: String) {
                 TabRowItem(
                     title = "Collected",
                     screen = { TabScreen(text = "Tab 1") },
-                    icon = Icons.Rounded.Place,
+                    icon = R.drawable.baseline_grid_on_24,
                 ),
                 TabRowItem(
                     title = "Created",
                     screen = { TabScreen(text = "Tab 2") },
-                    icon = Icons.Rounded.Search,
+                    icon = R.drawable.baseline_format_paint_24,
                 ),
                 TabRowItem(
                     title = "Favorites",
                     screen = { TabScreen(text = "Tab 3") },
-                    icon = Icons.Rounded.Star,
+                    icon = R.drawable.baseline_favorite_border_24,
                 )
             )
 
@@ -152,8 +161,8 @@ fun AccountScreen(address: String) {
 
                             text = {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(
-                                        imageVector = item.icon,
+                                    Image(
+                                        painter = painterResource(id = item.icon),
                                         contentDescription = "",
                                         modifier = Modifier.size(24.dp)
                                     )
@@ -200,7 +209,7 @@ fun shortenHexString(inputString: String, visibleCharacters: Int): String {
 
 data class TabRowItem(
     val title: String,
-    val icon: ImageVector,
+    val icon: Int,
     val screen: @Composable () -> Unit,
 )
 
@@ -210,14 +219,90 @@ fun TabScreen(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center,
+            .fillMaxSize()
+            .padding(paddingValues = PaddingValues(16.dp)),
+        contentAlignment = Alignment.TopCenter,
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Bold
-        )
+        Column(modifier = Modifier
+            .fillMaxWidth()) {
+            val textState = remember { mutableStateOf(TextFieldValue("")) }
+            SearchView(state = textState)
+        }
+        EmptyStateComponent()
+
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchView(state: MutableState<TextFieldValue>) {
+    TextField(
+        value = state.value,
+        onValueChange = { value ->
+            state.value = value
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 0.6.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(10.dp)
+            ),
+        textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
+        leadingIcon = {
+            Icon(
+                Icons.Default.Search,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(15.dp)
+                    .size(24.dp)
+            )
+        },
+        trailingIcon = {
+            if (state.value != TextFieldValue("")) {
+                androidx.compose.material3.IconButton(
+                    onClick = {
+                        state.value =
+                            TextFieldValue("") // Remove text from TextField when you press the 'X' icon
+                    }
+                ) {
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .size(24.dp)
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        shape = RoundedCornerShape(8.dp), // The TextFiled has rounded corners top left and right by default
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = Color.Black,
+            cursorColor = Color.Black,
+            leadingIconColor = Color.Black,
+            trailingIconColor = Color.Black,
+            backgroundColor = Color.White,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
+        placeholder = {
+            androidx.compose.material.Text(
+                text = "Search",
+                style = MaterialTheme.typography.bodyMedium.merge(
+                    TextStyle(
+                        color = ListItemDefaults.contentColor.copy(
+                            alpha = 0.5f
+                        )
+                    )
+                ),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    )
+}
+
+
 

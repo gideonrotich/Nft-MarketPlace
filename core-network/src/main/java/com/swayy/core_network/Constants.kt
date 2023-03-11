@@ -6,4 +6,6 @@ object Constants {
     const val COLLECTIONS_URL = "https://api.howrare.is/v0.1/"
     const val GET_COLLECTIONS = "collections"
     const val GET_COLLECTION_DETAILS = "collections/{collection}"
+    const val BASE_URL_TWO = "https://api.blockspan.com/v1/exchanges/"
+    const val GET_EXCHANGE = "collections"
 }
