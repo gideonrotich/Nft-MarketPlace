@@ -1,8 +1,9 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
     id("com.google.devtools.ksp") version ("1.7.20-1.0.8")
 }
 
@@ -11,7 +12,7 @@ apply {
 }
 
 android {
-    namespace = "com.swayy.ranking"
+    namespace = "com.swayy.search"
     compileSdk = 33
 
     defaultConfig {
@@ -39,10 +40,10 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        compose = true
+        compose =  true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion =  "1.3.2"
     }
     packagingOptions {
         resources {

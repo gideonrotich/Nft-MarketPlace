@@ -32,6 +32,7 @@ import com.swayy.fantasymanager.component.navGraph
 import com.swayy.fantasymanager.navigation.NavGraphs
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.profile.presentation.destinations.SettingsScreenDestination
+import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 
@@ -64,7 +65,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         showBottomBar = route in listOf(
                             "home/${HomeScreenDestination.route}",
-                            "settings/${SettingsScreenDestination.route}",
+                            "ranking/${RankingScreenDestination.route}",
+                            "settings/${SettingsScreenDestination.route}"
 
                         )
                     ) { innerPadding ->
@@ -95,6 +97,20 @@ internal fun AppNavigation(
         rootDefaultAnimations = RootNavGraphDefaultAnimations.ACCOMPANIST_FADING, // default `rootDefaultAnimations` means no animations
         defaultAnimationsForNestedNavGraph = mapOf(
             NavGraphs.home to NestedNavGraphDefaultAnimations(
+                enterTransition = {
+                    scaleInEnterTransition()
+                },
+                exitTransition = {
+                    scaleOutExitTransition()
+                },
+                popEnterTransition = {
+                    scaleInPopEnterTransition()
+                },
+                popExitTransition = {
+                    scaleOutPopExitTransition()
+                }
+            ),
+            NavGraphs.ranking to NestedNavGraphDefaultAnimations(
                 enterTransition = {
                     scaleInEnterTransition()
                 },

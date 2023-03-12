@@ -58,7 +58,6 @@ fun AccountScreen(address: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.LightGray.copy(alpha = .1F))
     ) {
 
         Column {

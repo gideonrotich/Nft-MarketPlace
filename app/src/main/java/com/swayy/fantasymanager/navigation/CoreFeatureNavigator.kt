@@ -24,14 +24,20 @@ import com.swayy.home.presentation.destinations.CollectionDetailScreenDestinatio
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.home.presentation.home.HomeNavigator
 import com.swayy.profile.presentation.SettingsNavigator
+import com.swayy.ranking.presentation.ranking.RankingNavigator
+import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
 
 class CoreFeatureNavigator(
     private val navGraph: NavGraphSpec,
     private val navController: NavController
-) : HomeNavigator, SettingsNavigator {
+) : HomeNavigator, SettingsNavigator,RankingNavigator {
 
     override fun openHome() {
         navController.navigate(HomeScreenDestination within navGraph)
+    }
+
+    override fun openRanking() {
+        navController.navigate(RankingScreenDestination within navGraph)
     }
 
     override fun popBackStack() {

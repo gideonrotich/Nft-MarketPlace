@@ -71,34 +71,20 @@ fun SettingsScreen(
     navigator: SettingsNavigator,
     viewModel: ConnectWalletViewModel = hiltViewModel()
 ) {
-
     val context = LocalContext.current
     val walletAddress = viewModel.userWallet.collectAsState().value
     val walletType = viewModel.walletType.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
-            Spacer(modifier = Modifier.height(14.dp))
-            Text(
-                text = "Profile",
-                color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
-                style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
-                fontWeight = FontWeight.Bold,
-            )
-            Spacer(modifier = Modifier.height(14.dp))
-            androidx.compose.material.Divider(color = Color.LightGray, thickness = 0.5.dp)
 
             if (walletAddress != "0") {
                 AccountScreen(address = walletAddress)
             } else {
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.LightGray.copy(alpha = .1F)),
-                    contentPadding = PaddingValues(vertical = 40.dp, horizontal = 15.dp),
+                        .fillMaxSize(),
+                    contentPadding = PaddingValues(vertical = 50.dp, horizontal = 15.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
@@ -110,9 +96,7 @@ fun SettingsScreen(
             }
 
         }
-
     }
-
 }
 
 

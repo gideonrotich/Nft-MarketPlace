@@ -21,6 +21,7 @@ import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.swayy.home.presentation.destinations.CollectionDetailScreenDestination
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.profile.presentation.destinations.SettingsScreenDestination
+import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
 
 object NavGraphs {
 
@@ -47,12 +48,24 @@ object NavGraphs {
             .associateBy { it.route }
     }
 
+    val ranking = object : NavGraphSpec {
+        override val route = "ranking"
+
+        override val startRoute = RankingScreenDestination routedIn this
+
+        override val destinationsByRoute = listOf<DestinationSpec<*>>(
+            RankingScreenDestination,
+        ).routedIn(this)
+            .associateBy { it.route }
+    }
+
     val root = object : NavGraphSpec {
         override val route = "root"
         override val startRoute = home
         override val destinationsByRoute = emptyMap<String, DestinationSpec<*>>()
         override val nestedNavGraphs = listOf(
             home,
+            ranking,
             settings
         )
     }
