@@ -11,8 +11,9 @@ apply {
     from("$rootDir/base-module.gradle")
 }
 
+
 android {
-    namespace = "com.swayy.search"
+    namespace = "com.swayy.settings"
     compileSdk = 33
 
     defaultConfig {
@@ -39,6 +40,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
         compose =  true
     }
@@ -84,6 +86,4 @@ dependencies {
     implementation(project(":compose-ui"))
     implementation(project(":core-network"))
     implementation(project(":core-database"))
-    implementation(project(":feature:ranking"))
-    implementation(project(":feature:home"))
 }

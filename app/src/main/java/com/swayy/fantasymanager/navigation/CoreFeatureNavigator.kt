@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kanyideveloper.mealtime.navigation
+package com.swayy.fantasymanager.navigation
 
 import android.net.Uri
 import androidx.navigation.NavController
@@ -26,11 +26,13 @@ import com.swayy.home.presentation.home.HomeNavigator
 import com.swayy.profile.presentation.SettingsNavigator
 import com.swayy.ranking.presentation.ranking.RankingNavigator
 import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
+import com.swayy.search.presentation.SearchNavigator
+import com.swayy.search.presentation.destinations.SearchScreenDestination
 
 class CoreFeatureNavigator(
     private val navGraph: NavGraphSpec,
     private val navController: NavController
-) : HomeNavigator, SettingsNavigator,RankingNavigator {
+) : HomeNavigator, SettingsNavigator,RankingNavigator,SearchNavigator {
 
     override fun openHome() {
         navController.navigate(HomeScreenDestination within navGraph)
@@ -38,6 +40,10 @@ class CoreFeatureNavigator(
 
     override fun openRanking() {
         navController.navigate(RankingScreenDestination within navGraph)
+    }
+
+    override fun openSearch() {
+        navController.navigate(SearchScreenDestination within navGraph)
     }
 
     override fun popBackStack() {

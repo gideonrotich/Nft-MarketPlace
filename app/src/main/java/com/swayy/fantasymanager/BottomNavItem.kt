@@ -34,7 +34,7 @@ sealed class BottomNavItem(var title: String, var icon: Int, var screen: NavGrap
     object MealPlanner : BottomNavItem(
         title = "Search",
         icon = com.swayy.core.R.drawable.baseline_search_24,
-        screen = NavGraphs.home
+        screen = NavGraphs.search
     )
 
     object Favorites : BottomNavItem(

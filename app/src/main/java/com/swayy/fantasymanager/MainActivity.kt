@@ -29,10 +29,12 @@ import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.scope.DestinationScope
 import com.swayy.fantasymanager.component.StandardScaffold
 import com.swayy.fantasymanager.component.navGraph
+import com.swayy.fantasymanager.navigation.CoreFeatureNavigator
 import com.swayy.fantasymanager.navigation.NavGraphs
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.profile.presentation.destinations.SettingsScreenDestination
 import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
+import com.swayy.search.presentation.destinations.SearchScreenDestination
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 
@@ -66,6 +68,7 @@ class MainActivity : ComponentActivity() {
                         showBottomBar = route in listOf(
                             "home/${HomeScreenDestination.route}",
                             "ranking/${RankingScreenDestination.route}",
+                            "search/${SearchScreenDestination.route}",
                             "settings/${SettingsScreenDestination.route}"
 
                         )
@@ -111,6 +114,20 @@ internal fun AppNavigation(
                 }
             ),
             NavGraphs.ranking to NestedNavGraphDefaultAnimations(
+                enterTransition = {
+                    scaleInEnterTransition()
+                },
+                exitTransition = {
+                    scaleOutExitTransition()
+                },
+                popEnterTransition = {
+                    scaleInPopEnterTransition()
+                },
+                popExitTransition = {
+                    scaleOutPopExitTransition()
+                }
+            ),
+            NavGraphs.search to NestedNavGraphDefaultAnimations(
                 enterTransition = {
                     scaleInEnterTransition()
                 },

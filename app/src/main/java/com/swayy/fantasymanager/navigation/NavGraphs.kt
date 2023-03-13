@@ -22,6 +22,7 @@ import com.swayy.home.presentation.destinations.CollectionDetailScreenDestinatio
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.profile.presentation.destinations.SettingsScreenDestination
 import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
+import com.swayy.search.presentation.destinations.SearchScreenDestination
 
 object NavGraphs {
 
@@ -59,6 +60,17 @@ object NavGraphs {
             .associateBy { it.route }
     }
 
+    val search = object : NavGraphSpec {
+        override val route = "search"
+
+        override val startRoute = SearchScreenDestination routedIn this
+
+        override val destinationsByRoute = listOf<DestinationSpec<*>>(
+            SearchScreenDestination,
+        ).routedIn(this)
+            .associateBy { it.route }
+    }
+
     val root = object : NavGraphSpec {
         override val route = "root"
         override val startRoute = home
@@ -66,6 +78,7 @@ object NavGraphs {
         override val nestedNavGraphs = listOf(
             home,
             ranking,
+            search,
             settings
         )
     }

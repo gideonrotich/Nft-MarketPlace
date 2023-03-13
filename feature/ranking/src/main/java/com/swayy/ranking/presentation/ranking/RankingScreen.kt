@@ -393,5 +393,4 @@ data class FilterContent(
     val backgroundColor: Color,
     val filterText: String,
     val Icon: Int
-
 )
