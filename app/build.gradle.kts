@@ -72,6 +72,7 @@ dependencies {
     implementation(project(":feature:profile"))
     implementation(project(":feature:ranking"))
     implementation(project(":feature:search"))
+    implementation(project(":feature:settings"))
 
     implementation("io.github.raamcosta.compose-destinations:animations-core:1.7.32-beta")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.7.32-beta")

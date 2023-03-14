@@ -46,6 +46,6 @@ sealed class BottomNavItem(var title: String, var icon: Int, var screen: NavGrap
     object Settings : BottomNavItem(
         title = "More",
         icon = com.swayy.core.R.drawable.baseline_dehaze_24,
-        screen = NavGraphs.home
+        screen = NavGraphs.profile
     )
 }

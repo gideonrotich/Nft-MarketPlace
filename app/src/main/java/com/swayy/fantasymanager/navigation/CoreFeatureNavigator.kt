@@ -24,15 +24,18 @@ import com.swayy.home.presentation.destinations.CollectionDetailScreenDestinatio
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.home.presentation.home.HomeNavigator
 import com.swayy.profile.presentation.SettingsNavigator
+import com.swayy.profile.presentation.destinations.SettingsScreenDestination
 import com.swayy.ranking.presentation.ranking.RankingNavigator
 import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
 import com.swayy.search.presentation.SearchNavigator
 import com.swayy.search.presentation.destinations.SearchScreenDestination
+import com.swayy.settings.presentation.ProfileNavigator
+import com.swayy.settings.presentation.destinations.ProfileScreenDestination
 
 class CoreFeatureNavigator(
     private val navGraph: NavGraphSpec,
     private val navController: NavController
-) : HomeNavigator, SettingsNavigator,RankingNavigator,SearchNavigator {
+) : HomeNavigator, SettingsNavigator,RankingNavigator,SearchNavigator ,ProfileNavigator{
 
     override fun openHome() {
         navController.navigate(HomeScreenDestination within navGraph)
@@ -45,6 +48,11 @@ class CoreFeatureNavigator(
     override fun openSearch() {
         navController.navigate(SearchScreenDestination within navGraph)
     }
+
+    override fun openSettings() {
+        navController.navigate(ProfileScreenDestination within navGraph)
+    }
+
 
     override fun popBackStack() {
         navController.popBackStack()
