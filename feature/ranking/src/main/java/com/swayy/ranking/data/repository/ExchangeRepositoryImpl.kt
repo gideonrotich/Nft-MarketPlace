@@ -17,7 +17,6 @@ class ExchangeRepositoryImpl(
         flow {
             emit(Resource.Loading())
             try {
-                val apiResponse = blockspanApi.getExchange(chain, exchange)
 
             } catch (exception: IOException) {
                 emit(

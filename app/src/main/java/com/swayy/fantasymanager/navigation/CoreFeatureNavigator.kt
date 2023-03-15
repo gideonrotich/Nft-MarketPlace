@@ -25,8 +25,10 @@ import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.home.presentation.home.HomeNavigator
 import com.swayy.profile.presentation.SettingsNavigator
 import com.swayy.profile.presentation.destinations.SettingsScreenDestination
+import com.swayy.ranking.presentation.destinations.ExchangeDetailScreenDestination
+import com.swayy.ranking.presentation.destinations.NftDetailScreenDestination
+import com.swayy.ranking.presentation.destinations.RankingScreenDestination
 import com.swayy.ranking.presentation.ranking.RankingNavigator
-import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
 import com.swayy.search.presentation.SearchNavigator
 import com.swayy.search.presentation.destinations.SearchScreenDestination
 import com.swayy.settings.presentation.ProfileNavigator
@@ -56,6 +58,14 @@ class CoreFeatureNavigator(
 
     override fun popBackStack() {
         navController.popBackStack()
+    }
+
+    override fun openExchangeDetails(collectionId: String) {
+        navController.navigate(ExchangeDetailScreenDestination(collectionId = collectionId) within navGraph)
+    }
+
+    override fun OpenNftDetails(contract_address: String, token_id: String,chain:String) {
+        navController.navigate(NftDetailScreenDestination(contract_address = contract_address, token_id = token_id,chain = chain) within navGraph)
     }
 
     override fun openCollectionDetails(collectionId: String) {

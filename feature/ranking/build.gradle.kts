@@ -79,6 +79,8 @@ dependencies {
     implementation("io.github.raamcosta.compose-destinations:animations-core:1.7.32-beta")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.7.32-beta")
 
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.29.1-alpha")
+
     implementation(project(":core"))
     implementation(project(":compose-ui"))
     implementation(project(":core-network"))

@@ -2,9 +2,8 @@ package com.swayy.ranking.data.mapper
 
 import com.swayy.core_network.model.exchange.Result
 import com.swayy.core_network.model.exchange.single.SingleResponseDto
-import com.swayy.ranking.domain.model.Exchange
-import com.swayy.ranking.domain.model.Ranking
-import com.swayy.ranking.domain.model.Single
+import com.swayy.core_network.model.nft_detail.NftDetailResponseDto
+import com.swayy.ranking.domain.model.*
 
 internal fun Result.toExchange(): Exchange {
     return Exchange(
@@ -73,5 +72,45 @@ internal fun SingleResponseDto.toSingle(): Single {
         twitter_username,
         update_at,
         wiki_url
+    )
+}
+
+internal fun com.swayy.core_network.model.collections.nft.Result.toNft(): Nft {
+    return Nft(
+        cached_images,
+        cached_videos,
+        contract_address,
+        current_owners,
+        id,
+        metadata,
+        metadata_updated_at,
+        minted_at,
+        recent_price,
+        token_description,
+        token_name,
+        token_type,
+        total_current_owners,
+        total_transfers,
+        uri
+    )
+}
+
+internal fun NftDetailResponseDto.toNftDetail(): NftDetail {
+    return NftDetail(
+        cached_images,
+        cached_videos,
+        contract_address,
+        current_owners,
+        id,
+        metadata,
+        metadata_updated_at,
+        minted_at,
+        recent_price,
+        token_description,
+        token_name,
+        token_type,
+        total_current_owners,
+        total_transfers,
+        uri
     )
 }

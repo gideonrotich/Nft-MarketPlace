@@ -1,6 +1,7 @@
 package com.swayy.fantasymanager
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -13,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -33,7 +35,7 @@ import com.swayy.fantasymanager.navigation.CoreFeatureNavigator
 import com.swayy.fantasymanager.navigation.NavGraphs
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.profile.presentation.destinations.SettingsScreenDestination
-import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
+import com.swayy.ranking.presentation.destinations.RankingScreenDestination
 import com.swayy.search.presentation.destinations.SearchScreenDestination
 import com.swayy.settings.presentation.destinations.ProfileScreenDestination
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +47,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
+
         setContent {
             val viewModel: MainViewModel = hiltViewModel()
 

@@ -2,25 +2,26 @@ package com.swayy.ranking.data.repository
 
 import com.swayy.core.util.Resource
 import com.swayy.core_network.BlockspanApi
-import com.swayy.ranking.data.mapper.toExchange
-import com.swayy.ranking.data.mapper.toRanking
-import com.swayy.ranking.domain.model.Ranking
-import com.swayy.ranking.domain.repository.RankingRepository
+import com.swayy.ranking.data.mapper.toNftDetail
+import com.swayy.ranking.data.mapper.toSingle
+import com.swayy.ranking.domain.model.NftDetail
+import com.swayy.ranking.domain.repository.NftDetailRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class RankingRepositoryImpl(
+class NftDetailRepositoryImpl(
     private val blockspanApi: BlockspanApi
-) : RankingRepository {
-    override fun getRanking(
-        chain: String,
-        exchange: String,
-        ranking: String
-    ): Flow<Resource<List<Ranking>>> = flow {
+) :NftDetailRepository{
+    override fun getNftDetail(
+        contract_address: String,
+        token_id: String,
+        chain:String
+    ): Flow<Resource<NftDetail>> = flow{
         emit(Resource.Loading())
         try {
+
         } catch (exception: IOException) {
             emit(
                 Resource.Error(
@@ -34,8 +35,7 @@ class RankingRepositoryImpl(
                 )
             )
         }
-        val allMatches =
-            blockspanApi.getRanking(chain, exchange, ranking).results.map { it.toRanking() }
+        val allMatches = blockspanApi.getNftDetail(contract_address, token_id,chain).toNftDetail()
         emit(Resource.Success(allMatches))
     }
 }

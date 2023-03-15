@@ -17,7 +17,6 @@ class SingleRepositoryImpl(
         flow {
             emit(Resource.Loading())
             try {
-                val apiResponse = blockspanApi.getSingle(key, chain, exchange)
 
             } catch (exception: IOException) {
                 emit(

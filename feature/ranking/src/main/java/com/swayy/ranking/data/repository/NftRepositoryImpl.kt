@@ -2,23 +2,19 @@ package com.swayy.ranking.data.repository
 
 import com.swayy.core.util.Resource
 import com.swayy.core_network.BlockspanApi
-import com.swayy.ranking.data.mapper.toExchange
+import com.swayy.ranking.data.mapper.toNft
 import com.swayy.ranking.data.mapper.toRanking
-import com.swayy.ranking.domain.model.Ranking
-import com.swayy.ranking.domain.repository.RankingRepository
+import com.swayy.ranking.domain.model.Nft
+import com.swayy.ranking.domain.repository.NftRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class RankingRepositoryImpl(
+class NftRepositoryImpl(
     private val blockspanApi: BlockspanApi
-) : RankingRepository {
-    override fun getRanking(
-        chain: String,
-        exchange: String,
-        ranking: String
-    ): Flow<Resource<List<Ranking>>> = flow {
+) :NftRepository{
+    override fun getNft(contract_address: String, chain: String): Flow<Resource<List<Nft>>> = flow{
         emit(Resource.Loading())
         try {
         } catch (exception: IOException) {
@@ -35,7 +31,7 @@ class RankingRepositoryImpl(
             )
         }
         val allMatches =
-            blockspanApi.getRanking(chain, exchange, ranking).results.map { it.toRanking() }
+            blockspanApi.getNft(contract_address,chain).results.map { it.toNft() }
         emit(Resource.Success(allMatches))
     }
 }

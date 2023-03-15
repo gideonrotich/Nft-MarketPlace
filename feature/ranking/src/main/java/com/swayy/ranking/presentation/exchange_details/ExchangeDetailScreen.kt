@@ -1,81 +1,77 @@
-package com.swayy.home.presentation.collection_detail
+package com.swayy.ranking.presentation.exchange_details
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Resources
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItemDefaults.contentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalWindowInfo
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
+import com.google.android.material.tabs.TabLayout.Tab
 import com.ramcosta.composedestinations.annotation.Destination
 import com.swayy.core.R
-import com.swayy.home.presentation.home.HomeNavigator
+import com.swayy.ranking.presentation.exchange_details.components.ItemsScreen
+import com.swayy.ranking.presentation.ranking.*
+import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ExperimentalToolbarApi
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
-@OptIn(ExperimentalToolbarApi::class)
+@OptIn(ExperimentalPagerApi::class)
 @Destination
 @Composable
-fun CollectionDetailScreen(
+fun ExchangeDetailScreen(
     collectionId: String,
-    navigator: HomeNavigator,
-    viewModel: CollectionDetailViewmodel = hiltViewModel()
+    navigator: RankingNavigator,
+    viewModel: RankingViewModel = hiltViewModel()
 ) {
-    val originalString = collectionId
-    val newString = originalString.removePrefix("/")
 
     LaunchedEffect(key1 = true) {
-        viewModel.getCollectionDetails(collection = newString)
+        viewModel.getSingle(key = collectionId, chain = "eth-main", exchange = "opensea")
     }
 
-    val collectionState = viewModel.state.value
+    val collectionState = viewModel.single.value
+    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState()
 
     val state = rememberCollapsingToolbarScaffoldState()
     val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
-
 
     CollapsingToolbarScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -92,7 +88,7 @@ fun CollectionDetailScreen(
                     .height(230.dp)
                     .pin()
             )
-            collectionState.collectiondetail?.let { it ->
+            collectionState.single?.let { it ->
 
                 Box(
                     modifier = Modifier
@@ -100,26 +96,30 @@ fun CollectionDetailScreen(
                         .height(230.dp)
                 ) {
 
-                    Image(
+                    Column(
                         modifier = Modifier
-                            .align(Alignment.BottomStart)
                             .fillMaxSize()
-                            .padding(bottom = 50.dp)
-                            .parallax(ratio = 0.5f)
-                            .graphicsLayer {
-                                alpha = if (textSize.value == 18f) 0f else 1f
-                            },
-                        painter = rememberAsyncImagePainter(
-                            ImageRequest.Builder(LocalContext.current)
-                                .data(data = it.logo)
-                                .apply(block = fun ImageRequest.Builder.() {
-                                    placeholder(com.swayy.core.R.drawable.placeholder)
-                                }).build()
-                        ),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
-
+                            .align(Alignment.BottomStart)
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(bottom = 50.dp)
+                                .parallax(ratio = 0.5f)
+                                .graphicsLayer {
+                                    alpha = if (textSize.value == 18f) 0f else 1f
+                                },
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(LocalContext.current)
+                                    .data(data = it.banner_image_url)
+                                    .apply(block = fun ImageRequest.Builder.() {
+                                        placeholder(R.drawable.placeholder)
+                                    }).build()
+                            ),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
+                        )
+                    }
 
                     Image(
                         modifier = Modifier
@@ -138,9 +138,9 @@ fun CollectionDetailScreen(
                             },
                         painter = rememberAsyncImagePainter(
                             ImageRequest.Builder(LocalContext.current)
-                                .data(data = it.logo)
+                                .data(data = it.image_url)
                                 .apply(block = fun ImageRequest.Builder.() {
-                                    placeholder(com.swayy.core.R.drawable.placeholder)
+                                    placeholder(R.drawable.placeholder)
                                 }).build()
                         ),
                         contentDescription = null,
@@ -149,29 +149,35 @@ fun CollectionDetailScreen(
 
                 }
 
-
-                Text(
-                    text = it.collection,
-                    modifier = Modifier
-                        .road(Alignment.CenterStart, Alignment.BottomEnd)
-                        .padding(60.dp, 16.dp, 16.dp, 16.dp),
-                    color = if (textSize.value >= 19) {
-                        Color.Transparent
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
-                    fontSize = textSize
-                )
+                it.name?.let { it1 ->
+                    Text(
+                        text = it1,
+                        modifier = Modifier
+                            .road(Alignment.CenterStart, Alignment.BottomEnd)
+                            .padding(60.dp, 16.dp, 16.dp, 16.dp),
+                        color = if (textSize.value >= 19) {
+                            Color.Transparent
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                        fontSize = textSize
+                    )
+                }
 
                 IconButton(onClick = {
                     navigator.popBackStack()
-                }) {
+                }, modifier = Modifier.clip(RoundedCornerShape(100.dp))) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .clip(RoundedCornerShape(100.dp))
                     )
                 }
+
+
             }
         }
     ) {
@@ -189,42 +195,44 @@ fun CollectionDetailScreen(
                         )
                     }
                 }
-
             }
             item {
-                collectionState.collectiondetail?.let { it ->
+                collectionState.single?.let { it ->
 
                     if (textSize.value >= 19) {
                         Row(
                             Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(0.85f),
-                                text = it.collection,
-                                style = MaterialTheme.typography.headlineMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                fontWeight = FontWeight.Bold
-                            )
+                            it.name?.let { it1 ->
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(0.85f),
+                                    text = it1,
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
 
                         }
                     }
-
                 }
             }
             item {
-                collectionState.collectiondetail?.let { it ->
+                collectionState.single?.let { it ->
                     Column {
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            text = it.description,
-                            modifier = Modifier.fillMaxWidth(),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 16.sp,
-                            letterSpacing = 0.2.sp,
-                        )
+                        it.description?.let { it1 ->
+                            Text(
+                                text = it1,
+                                modifier = Modifier.fillMaxWidth(),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 16.sp,
+                                letterSpacing = 0.2.sp,
+                            )
+                        }
                         Spacer(modifier = Modifier.height(16.dp))
                         val context = LocalContext.current
                         val launcher =
@@ -237,7 +245,10 @@ fun CollectionDetailScreen(
                                     .size(30.dp)
                                     .clickable(onClick = {
                                         val intent =
-                                            Intent(Intent.ACTION_VIEW, Uri.parse(it.website))
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse(it.wiki_url.toString())
+                                            )
                                         if (intent.resolveActivity(context.packageManager) != null) {
                                             launcher.launch(intent)
                                         }
@@ -252,7 +263,7 @@ fun CollectionDetailScreen(
                                     .size(30.dp)
                                     .clickable(onClick = {
                                         val intent =
-                                            Intent(Intent.ACTION_VIEW, Uri.parse(it.discord))
+                                            Intent(Intent.ACTION_VIEW, Uri.parse(it.discord_url))
                                         if (intent.resolveActivity(context.packageManager) != null) {
                                             launcher.launch(intent)
                                         }
@@ -267,7 +278,10 @@ fun CollectionDetailScreen(
                                     .size(30.dp)
                                     .clickable(onClick = {
                                         val intent =
-                                            Intent(Intent.ACTION_VIEW, Uri.parse(it.twitter))
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse(it.twitter_username)
+                                            )
                                         if (intent.resolveActivity(context.packageManager) != null) {
                                             launcher.launch(intent)
                                         }
@@ -275,73 +289,45 @@ fun CollectionDetailScreen(
                                 tint = Color.Gray
                             )
                         }
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        it.contracts?.take(1)?.forEach { met ->
+                            val address = met.contract_address
+
+
+                            val tabRowItems = listOf(
+                                TabRowItem(
+                                    title = "Items",
+                                    screen = { ItemsScreen(address = address,navigator = navigator) },
+                                    icon = R.drawable.baseline_equalizer_24,
+                                ),
+                                TabRowItem(
+                                    title = "Activity",
+                                    screen = { },
+                                    icon = R.drawable.baseline_show_chart_24,
+                                )
+                            )
+                            Debug(
+                                pagerState = pagerState,
+                                tabRowItems = tabRowItems,
+                                coroutineScope = coroutineScope
+                            )
+                        }
+
+
+
                         Spacer(modifier = Modifier.height(20.dp))
-                        val textState = remember { mutableStateOf(TextFieldValue("")) }
-                        SearchView(state = textState)
-                        Spacer(modifier = Modifier.height(20.dp))
+
 
                     }
 
                 }
 
             }
-            collectionState.collectiondetail?.let {
-
-                item {
-                    LazyVerticalGrid(columns = GridCells.Fixed(2),
-                        modifier = Modifier
-                            .height(500.dp)
-                            .width(500.dp), content = {
-                            items(it.items!!.take(20)) { data ->
-                                Box(
-                                    modifier = Modifier
-                                        .width(240.dp)
-                                        .height(230.dp)
-                                        .padding(6.dp)
-                                ) {
-                                    Card(
-                                        modifier = Modifier.fillMaxSize(),
-                                        elevation = 1.dp,
-                                        shape = RoundedCornerShape(12.dp),
-                                        backgroundColor = if (isSystemInDarkTheme()) androidx.compose.material3.MaterialTheme.colorScheme.scrim else Color.White
-                                    ) {
-                                        Column {
-                                            Image(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .height(150.dp),
-                                                painter = rememberAsyncImagePainter(
-                                                    ImageRequest.Builder(LocalContext.current)
-                                                        .data(data = data.image)
-                                                        .apply(block = fun ImageRequest.Builder.() {
-                                                            placeholder(com.swayy.core.R.drawable.placeholder)
-                                                        }).build()
-                                                ),
-                                                contentDescription = null,
-                                                contentScale = ContentScale.Crop
-                                            )
-                                            Spacer(modifier = Modifier.height(6.dp))
-                                            androidx.compose.material3.Text(
-                                                text = data.name,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                                style = MaterialTheme.typography.titleSmall,
-                                                fontSize = 15.sp,
-                                                fontWeight = FontWeight.Bold,
-                                                modifier = Modifier.padding(start = 10.dp)
-                                            )
-                                        }
-                                    }
-
-                                }
-                            }
-                        })
-                }
-            }
 
         }
     }
-
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -394,7 +380,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             cursorColor = Color.Black,
             leadingIconColor = Color.Black,
             trailingIconColor = Color.Black,
-            backgroundColor = Color.LightGray.copy(alpha = 0.6f),
+            backgroundColor = Color.White,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
@@ -404,7 +390,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
                 text = "Search",
                 style = MaterialTheme.typography.bodyMedium.merge(
                     TextStyle(
-                        color = contentColor.copy(
+                        color = ListItemDefaults.contentColor.copy(
                             alpha = 0.5f
                         )
                     )
@@ -414,6 +400,3 @@ fun SearchView(state: MutableState<TextFieldValue>) {
         }
     )
 }
-
-
-

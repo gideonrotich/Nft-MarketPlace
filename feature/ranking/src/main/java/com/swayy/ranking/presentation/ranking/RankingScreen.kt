@@ -34,12 +34,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.pagerTabIndicatorOffset
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import com.swayy.core.R
 import com.swayy.ranking.presentation.ranking.state.ExchangeState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -48,6 +46,10 @@ interface RankingNavigator {
     fun openRanking()
 
     fun popBackStack()
+
+    fun openExchangeDetails(collectionId:String)
+
+    fun OpenNftDetails(contract_address:String,token_id:String,chain:String)
 
 }
 
@@ -82,7 +84,7 @@ fun RankingScreen(
         val tabRowItems = listOf(
             TabRowItem(
                 title = "Rankings",
-                screen = { StatDetail(exchangeState = exchangeState) },
+                screen = { StatDetail(exchangeState = exchangeState,navigator = navigator) },
                 icon = R.drawable.baseline_equalizer_24,
             ),
             TabRowItem(
@@ -94,53 +96,8 @@ fun RankingScreen(
 
         val pagerState = rememberPagerState()
 
-        Column(
-            modifier = Modifier
-                .padding(0.dp)
-        ) {
-            TabRow(
-                selectedTabIndex = pagerState.currentPage,
-                indicator = { tabPositions ->
-                    TabRowDefaults.Indicator(
-                        Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                },
-                backgroundColor = Color.LightGray.copy(alpha = .0F),
-            ) {
-                tabRowItems.forEachIndexed { index, item ->
-                    Tab(
-                        selected = pagerState.currentPage == index,
-                        onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
 
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Image(
-                                    painter = painterResource(id = item.icon),
-                                    contentDescription = "",
-                                    modifier = Modifier.size(24.dp)
-                                )
-                                Spacer(Modifier.width(4.dp))
-                                androidx.compose.material3.Text(
-                                    text = item.title,
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-                    )
-                }
-            }
-            HorizontalPager(
-                count = tabRowItems.size,
-                state = pagerState,
-            ) {
-                tabRowItems[pagerState.currentPage].screen()
-            }
-        }
-        Spacer(modifier = Modifier.height(14.dp))
+        Debug(pagerState = pagerState, tabRowItems = tabRowItems,coroutineScope = coroutineScope)
 
 
     }
@@ -181,7 +138,8 @@ data class TabRowItem(
 
 @Composable
 fun StatDetail(
-    exchangeState: ExchangeState
+    exchangeState: ExchangeState,
+    navigator: RankingNavigator
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -190,9 +148,12 @@ fun StatDetail(
             Spacer(modifier = Modifier.height(14.dp))
             Divider(color = Color.LightGray.copy(alpha = 0.6f), thickness = 0.5.dp)
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                if (exchangeState.isLoading){
+                if (exchangeState.isLoading) {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.CenterVertically).padding(top = 20.dp).size(28.dp),
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(top = 20.dp)
+                            .size(28.dp),
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                         strokeWidth = 2.6.dp
                     )
@@ -212,7 +173,13 @@ fun StatDetail(
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .clickable(onClick = {
+                                    navigator.openExchangeDetails(
+                                        data.key!!
+                                    )
+                                })
                         ) {
                             androidx.compose.material3.Text(
                                 text = "${index + 1}",
@@ -375,13 +342,14 @@ fun ChipComponent(filter: FilterContent) {
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.width(6.dp))
-            androidx.compose.material3.Icon(
+
+            Icon(
                 painter = painterResource(id = filter.Icon),
                 contentDescription = "",
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(end = 6.dp),
-                tint = Color.Black
+                tint = Color.Black,
             )
         }
     }
@@ -394,3 +362,56 @@ data class FilterContent(
     val filterText: String,
     val Icon: Int
 )
+
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun Debug(pagerState: PagerState,tabRowItems: List<TabRowItem>,coroutineScope: CoroutineScope){
+    Column(
+        modifier = Modifier
+            .padding(0.dp)
+    ) {
+        TabRow(
+            selectedTabIndex = pagerState.currentPage,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            },
+            backgroundColor = Color.LightGray.copy(alpha = .0F),
+        ) {
+            tabRowItems.forEachIndexed { index, item ->
+                Tab(
+                    selected = pagerState.currentPage == index,
+                    onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
+
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Image(
+                                painter = painterResource(id = item.icon),
+                                contentDescription = "",
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(Modifier.width(4.dp))
+                            androidx.compose.material3.Text(
+                                text = item.title,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
+                )
+            }
+        }
+        HorizontalPager(
+            count = tabRowItems.size,
+            state = pagerState,
+        ) {
+            tabRowItems[pagerState.currentPage].screen()
+        }
+    }
+    Spacer(modifier = Modifier.height(14.dp))
+}

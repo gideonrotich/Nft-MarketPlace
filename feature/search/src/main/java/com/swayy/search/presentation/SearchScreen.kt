@@ -2,10 +2,7 @@ package com.swayy.search.presentation
 
 import android.content.Context
 import android.os.Build
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -41,6 +38,7 @@ import coil.size.Size
 import com.ramcosta.composedestinations.annotation.Destination
 import com.swayy.core.R
 import com.swayy.home.presentation.home.gifLoader
+import com.swayy.ranking.presentation.ranking.RankingNavigator
 import com.swayy.ranking.presentation.ranking.RankingViewModel
 
 interface SearchNavigator {
@@ -48,11 +46,15 @@ interface SearchNavigator {
 
     fun popBackStack()
 
+    fun openExchangeDetails(collectionId:String)
+
+
 }
 
 @Destination
 @Composable
 fun SearchScreen(
+    navigator: SearchNavigator,
     viewModel: RankingViewModel = hiltViewModel()
 ) {
 
@@ -107,6 +109,11 @@ fun SearchScreen(
                                 .width(240.dp)
                                 .height(186.dp)
                                 .padding(start = 10.dp, end = 10.dp, top = 12.dp)
+                                .clickable(onClick = {
+                                    navigator.openExchangeDetails(
+                                        search.key!!
+                                    )
+                                })
                         ) {
 
                             androidx.compose.material.Card(

@@ -2,12 +2,8 @@ package com.swayy.ranking.di
 
 import com.swayy.core_network.BlockspanApi
 import com.swayy.core_network.MoralisApi
-import com.swayy.ranking.data.repository.ExchangeRepositoryImpl
-import com.swayy.ranking.data.repository.RankingRepositoryImpl
-import com.swayy.ranking.data.repository.SingleRepositoryImpl
-import com.swayy.ranking.domain.repository.ExchangeRepository
-import com.swayy.ranking.domain.repository.RankingRepository
-import com.swayy.ranking.domain.repository.SingleRepository
+import com.swayy.ranking.data.repository.*
+import com.swayy.ranking.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +30,18 @@ object rankingModule {
     @Singleton
     fun provideSingleRepository(blockspanApi: BlockspanApi): SingleRepository {
         return SingleRepositoryImpl(blockspanApi = blockspanApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNftRepository(blockspanApi: BlockspanApi): NftRepository {
+        return NftRepositoryImpl(blockspanApi = blockspanApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNftDetailRepository(blockspanApi: BlockspanApi): NftDetailRepository {
+        return NftDetailRepositoryImpl(blockspanApi = blockspanApi)
     }
 
 }

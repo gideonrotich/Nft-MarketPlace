@@ -5,12 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.swayy.core.util.Resource
-import com.swayy.ranking.domain.use_case.getExchangeUseCase
-import com.swayy.ranking.domain.use_case.getRankingUseCase
-import com.swayy.ranking.domain.use_case.getSingleUseCase
-import com.swayy.ranking.presentation.ranking.state.ExchangeState
-import com.swayy.ranking.presentation.ranking.state.RankingListState
-import com.swayy.ranking.presentation.ranking.state.SingleState
+import com.swayy.ranking.domain.model.Nft
+import com.swayy.ranking.domain.use_case.*
+import com.swayy.ranking.presentation.ranking.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,7 +17,9 @@ import javax.inject.Inject
 class RankingViewModel @Inject constructor(
     private val getRankingUseCase: getRankingUseCase,
     private val getSingleUseCase: getSingleUseCase,
-    private val getExchangeUseCase: getExchangeUseCase
+    private val getExchangeUseCase: getExchangeUseCase,
+    private val getNftUseCase: getNftUseCase,
+    private val getNftDetailUseCase: getNftDetailUseCase
 ) : ViewModel() {
 
     private val _ranking = mutableStateOf(RankingListState())
@@ -31,6 +30,12 @@ class RankingViewModel @Inject constructor(
 
     private val _exchange = mutableStateOf(ExchangeState())
     val exchange: State<ExchangeState> = _exchange
+
+    private val _nft = mutableStateOf(NftState())
+    val nft :State<NftState> = _nft
+
+    private val _nftDetail = mutableStateOf(NftDetailState())
+    val nftDetail :State<NftDetailState> = _nftDetail
 
     init {
         getRankings("eth-main","opensea","total_volume")
@@ -93,6 +98,44 @@ class RankingViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     _single.value = SingleState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getNft(contract_address: String, chain: String) {
+        getNftUseCase(contract_address, chain).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _nft.value = NftState(nft = result.data ?: emptyList())
+
+                }
+                is Resource.Error -> {
+                    _nft.value = NftState(
+                        error = result.message ?: "An unexpected error occured"
+                    )
+                }
+                is Resource.Loading -> {
+                    _nft.value = NftState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getNftDetail(contract_address:String,token_id:String,chain:String) {
+        getNftDetailUseCase(contract_address,token_id,chain).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _nftDetail.value = NftDetailState(nftDetail = result.data)
+
+                }
+                is Resource.Error -> {
+                    _nftDetail.value = NftDetailState(
+                        error = result.message ?: "An unexpected error occured"
+                    )
+                }
+                is Resource.Loading -> {
+                    _nftDetail.value = NftDetailState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)

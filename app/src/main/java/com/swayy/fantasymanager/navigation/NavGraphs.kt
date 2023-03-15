@@ -21,7 +21,9 @@ import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.swayy.home.presentation.destinations.CollectionDetailScreenDestination
 import com.swayy.home.presentation.destinations.HomeScreenDestination
 import com.swayy.profile.presentation.destinations.SettingsScreenDestination
-import com.swayy.ranking.presentation.ranking.destinations.RankingScreenDestination
+import com.swayy.ranking.presentation.destinations.ExchangeDetailScreenDestination
+import com.swayy.ranking.presentation.destinations.NftDetailScreenDestination
+import com.swayy.ranking.presentation.destinations.RankingScreenDestination
 import com.swayy.search.presentation.destinations.SearchScreenDestination
 import com.swayy.settings.presentation.destinations.ProfileScreenDestination
 
@@ -57,6 +59,8 @@ object NavGraphs {
 
         override val destinationsByRoute = listOf<DestinationSpec<*>>(
             RankingScreenDestination,
+            ExchangeDetailScreenDestination,
+            NftDetailScreenDestination
         ).routedIn(this)
             .associateBy { it.route }
     }
@@ -68,6 +72,8 @@ object NavGraphs {
 
         override val destinationsByRoute = listOf<DestinationSpec<*>>(
             SearchScreenDestination,
+            ExchangeDetailScreenDestination,
+            NftDetailScreenDestination
         ).routedIn(this)
             .associateBy { it.route }
     }
