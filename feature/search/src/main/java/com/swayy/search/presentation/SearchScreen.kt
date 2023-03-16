@@ -46,7 +46,7 @@ interface SearchNavigator {
 
     fun popBackStack()
 
-    fun openExchangeDetails(collectionId:String)
+    fun openExchangeDetails(collectionId: String)
 
 
 }
@@ -90,7 +90,7 @@ fun SearchScreen(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                if (exchangeState.isLoading){
+                if (exchangeState.isLoading) {
                     androidx.compose.material.CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.CenterVertically).padding(top = 20.dp)
                             .size(28.dp),
@@ -131,56 +131,23 @@ fun SearchScreen(
                                                 .height(120.dp)
                                         ) {
 
-                                            if (search.featured_image_url != "") {
-                                                Image(
-                                                    painter = rememberAsyncImagePainter(
-                                                        ImageRequest.Builder(context)
-                                                            .data(data = search.featured_image_url)
-                                                            .apply(block = {
-                                                                size(Size.ORIGINAL)
-                                                            }).placeholder(R.drawable.placeholder).build(),
-                                                        imageLoader = context.gifLoader()
-                                                    ),
-                                                    contentDescription = null,
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .height(100.dp),
-                                                    contentScale = ContentScale.Crop
-                                                )
-                                            } else {
-                                                Image(
-                                                    painter = rememberAsyncImagePainter(
-                                                        ImageRequest.Builder(context)
-                                                            .data(data = search.banner_image_url)
-                                                            .apply(block = {
-                                                                size(Size.ORIGINAL)
-                                                            }).placeholder(R.drawable.placeholder).build(),
-                                                        imageLoader = context.gifLoader()
-                                                    ),
-                                                    contentDescription = null,
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .height(100.dp),
-                                                    contentScale = ContentScale.Crop
-                                                )
-                                            }
-                                            if (search.featured_image_url == "") {
-                                                Image(
-                                                    painter = rememberAsyncImagePainter(
-                                                        ImageRequest.Builder(context)
-                                                            .data(data = search.image_url)
-                                                            .apply(block = {
-                                                                size(Size.ORIGINAL)
-                                                            }).placeholder(R.drawable.placeholder).build(),
-                                                        imageLoader = context.gifLoader()
-                                                    ),
-                                                    contentDescription = null,
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .height(100.dp),
-                                                    contentScale = ContentScale.Crop
-                                                )
-                                            }
+                                            Image(
+                                                painter = rememberAsyncImagePainter(
+                                                    ImageRequest.Builder(context)
+                                                        .data(data = if(search.featured_image_url != null)search.featured_image_url else search.image_url)
+                                                        .apply(block = {
+                                                            size(Size.ORIGINAL)
+                                                        }).placeholder(R.drawable.placeholder)
+                                                        .build(),
+                                                    imageLoader = context.gifLoader()
+                                                ),
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .height(100.dp),
+                                                contentScale = ContentScale.Crop
+                                            )
+
 
                                             Image(
                                                 painter = rememberAsyncImagePainter(

@@ -85,4 +85,5 @@ dependencies {
     implementation(project(":compose-ui"))
     implementation(project(":core-network"))
     implementation(project(":core-database"))
+    implementation(project(":feature:home"))
 }

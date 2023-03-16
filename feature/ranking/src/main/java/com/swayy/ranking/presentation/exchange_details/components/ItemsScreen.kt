@@ -28,8 +28,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import coil.size.Size
 import com.ramcosta.composedestinations.annotation.Destination
 import com.swayy.core.R
+import com.swayy.home.presentation.home.gifLoader
 import com.swayy.ranking.presentation.exchange_details.SearchView
 import com.swayy.ranking.presentation.ranking.RankingNavigator
 import com.swayy.ranking.presentation.ranking.RankingViewModel
@@ -47,6 +49,7 @@ fun ItemsScreen(
     }
 
     val collectionState = viewModel.nft.value
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize()) {
         val textState = remember { mutableStateOf(TextFieldValue("")) }
@@ -97,17 +100,18 @@ fun ItemsScreen(
                         ) {
                             Column {
                                 Image(
+                                    painter = rememberAsyncImagePainter(
+                                        ImageRequest.Builder(context)
+                                            .data(data = if(data.cached_images?.original == null)data.metadata?.image else data.cached_images.original)
+                                            .apply(block = {
+                                                size(Size.ORIGINAL)
+                                            }).placeholder(R.drawable.placeholder).build(),
+                                        imageLoader = context.gifLoader()
+                                    ),
+                                    contentDescription = null,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(150.dp),
-                                    painter = rememberAsyncImagePainter(
-                                        ImageRequest.Builder(LocalContext.current)
-                                            .data(data = data.cached_images?.original)
-                                            .apply(block = fun ImageRequest.Builder.() {
-                                                placeholder(R.drawable.placeholder)
-                                            }).build()
-                                    ),
-                                    contentDescription = null,
                                     contentScale = ContentScale.Crop
                                 )
                                 Spacer(modifier = Modifier.height(6.dp))
