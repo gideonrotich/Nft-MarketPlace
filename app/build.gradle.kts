@@ -13,7 +13,7 @@ apply {
 
 android {
     namespace =  "com.swayy.fantasymanager"
-    compileSdk  = 33
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.swayy.fantasymanager"
@@ -38,7 +38,7 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility =  JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility  = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
@@ -55,6 +55,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildToolsVersion = "33.0.2"
     applicationVariants.all {
         kotlin.sourceSets {
             getByName(name) {
