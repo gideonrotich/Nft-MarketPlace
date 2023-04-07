@@ -1,18 +1,18 @@
 # NiftyMarket
-Join the vibrant community of creators and collectors today and start exploring the world of NFTs like never before with NiftyMarket! 🚀🌟
+- A multi module jetpack compose project app 
+- Join the vibrant community of creators and collectors today and start exploring the world of NFTs like never before with NiftyMarket! 🚀🌟
 
 > ScreenShots
 
   <p float="left">
-     <img src="nftscreenshots/Screenshot_20230407-151626" width="32%"/>
-     <img src="nftscreenshots/Screenshot_20230407-151635" width="32%"/>
-     <img src="nftscreenshots/Screenshot_20230407-151647" width="32%"/>
-     <img src="nftscreenshots/Screenshot_20230407-151723" width="32%"/>
-     <img src="nftscreenshots/Screenshot_20230407-151859" width="32%"/>
-     <img src="nftscreenshots/Screenshot_20230407-151909" width="32%"/>
-     <img src="nftscreenshots/Screenshot_20230407-151918" width="32%"/>
-     <img src="nftscreenshots/Screenshot_20230407-152000" width="32%"/>
-     <img src="nftscreenshots/Screenshot_20230407-152014" width="32%"/>
+     <img src="nftscreenshots/Screenshot_20230407-151626.jpg" width="32%"/>
+     <img src="nftscreenshots/Screenshot_20230407-151635.jpg" width="32%"/>
+     <img src="nftscreenshots/Screenshot_20230407-151647.jpg" width="32%"/>
+     <img src="nftscreenshots/Screenshot_20230407-151723.jpg" width="32%"/>
+     <img src="nftscreenshots/Screenshot_20230407-151859.jpg" width="32%"/>
+     <img src="nftscreenshots/Screenshot_20230407-151909.jpg" width="32%"/>
+     <img src="nftscreenshots/Screenshot_20230407-151918.jpg" width="32%"/>
+     <img src="nftscreenshots/Screenshot_20230407-152014.jpg" width="32%"/>
   </p>
 
 
